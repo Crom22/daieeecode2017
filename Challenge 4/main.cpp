@@ -6,12 +6,13 @@
 using namespace std;
 
 struct word_count {
-    string word;
+    string *word;
     int count;
+    word_count* next;
 } word_count;
 
 int split(const string& s, vector<string>& tokens) {
-    int i, j = 0;
+    unsigned int i, j = 0;
     for (i = 0; i < s.length(); i++) {
         if (s[i] == '!' || s[i] == '(' || s[i] == ')') {
             int len = i - j;
@@ -30,6 +31,38 @@ int split(const string& s, vector<string>& tokens) {
     if (len > 0 ) {
         tokens.push_back(s.substr(j, i - j));
     }
+
+    return 0;
+}
+
+int increment_or_add(struct word_count* wc, string& word) {
+    bool inc = false;
+    struct word_count *last_wc = wc;
+    if (wc->word->compare("") == 0) {
+        wc->word = &word;
+        wc->count = 1;
+        wc->next = NULL;
+        return 0;
+    }
+
+    while (wc != NULL) {
+        last_wc = wc;
+        if (wc->word->compare(word) == 0) {
+            inc = true;
+            wc->count += 1;
+        }
+        wc = wc->next;
+    }
+
+    if (!inc) {
+        struct word_count *new_wc = (struct word_count *) malloc(sizeof(struct word_count));
+        new_wc->word = &word;
+        new_wc->count = 1;
+        new_wc->next = NULL;
+        last_wc->next = new_wc;
+    }
+
+    return 0;
 }
 
 int main() {
@@ -49,13 +82,27 @@ int main() {
         exit(EXIT_FAILURE);
     }
 
+    vector<string> tokens;
     for (string line: lines) {
         vector<char> delim = {' ', ',', '.', '!', '?', '(', ')'};
-        vector<string> tokens;
         split(line, tokens);
-        for (string word: tokens) {
-            cout << word << endl;
-        }
+    }
+
+    struct word_count wc;
+    string null = "";
+    wc.word = &null;
+    wc.count = 0;
+    wc.next = NULL;
+    struct word_count* work;
+    work = &wc;
+
+    for (string& word: tokens) {
+        increment_or_add(&wc, word);
+    }
+
+    while (work != NULL) {
+        cout << *(work->word) << ": " << work->count << endl;
+        work = work->next;
     }
 
     exit(EXIT_SUCCESS);
