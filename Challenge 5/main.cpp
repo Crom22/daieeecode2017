@@ -84,6 +84,8 @@ using namespace std;
 	//Print out all pokemon on the screen
 	void printall(ListElem *L)
 	{
+
+	    
 	}
 
 	//count the number of pokemon in the Circularly Linked List
@@ -198,33 +200,42 @@ using namespace std;
 
 				// Show number of Pokemons in rooster	
 				case 3: 
-					cout<<"Number of Pokemons:"<< "GIMME YOUR VALUE HERE" << endl;
+				    
+					cout<<"Number of Pokemons:"<< countitem(NULL) << endl;
 					break;
 
 				// Find Pokemon with lowest level	
 				case 4: 
 					//if you found a pokemon
-						cout<<"The pokemon with the lowest level is:"<<"GIMME YOUR VALUE HERE"<<
-						" who is level " << "GIMME YOUR VALUE HERE"<<endl;
+					{
+					    ListElem * shit = findmin(pfirst);
+						cout<<"The pokemon with the lowest level is:"<< shit->name <<
+						" who is level " << shit->level <<endl;
 					//else you should return cout<<"Not found\n";
+					}
 					break;
 				
 				// Find Pokemon with highest level
 				case 5: 
 					//if you found a pokemon
-						cout<<"The pokemon with the highest level is :"<<"GIMME YOUR VALUE HERE"<< 
-						" who is level " << "GIMME YOUR VALUE HERE"<<endl;
+					{
+					    ListElem * top = findmax(pfirst);  
+						cout<<"The pokemon with the highest level is :"<< *(top->name) << 
+						" who is level " << top->level <<endl;
+					}
 					//else you should return cout<<"Not found\n";
 					break;
 
 				// Find Pokemon by name and show his informations	
 				case 6: 
+				    {
 					cout<<"Find what:";
 					cin>>name;
 					//if you found a pokemon :
-						cout<<"Pokemon found : "<< "GIMME YOUR VALUE HERE"<< " Level : "
-						<< "GIMME YOUR VALUE HERE" << " Type : " << "GIMME YOUR VALUE HERE" << endl;
-					
+					ListElem * node = find(pfirst, name);
+						cout<<"Pokemon found : "<< *(node->name) << " Level : "
+						<< node->level << " Type : " << *(node->type) << endl;
+					}
 					//else you should return cout<<"Not found\n";
 						
 					
@@ -232,7 +243,10 @@ using namespace std;
 
 				// Show all Pokemon in rooster	
 				case 7: 
+				    {
 					cout<<"All Pokemons in rooster:\n";
+					printall(pfirst);
+					}
 					break;
 
 				// Quit Pokemon Rooster	
