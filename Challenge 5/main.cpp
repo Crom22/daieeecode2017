@@ -21,7 +21,7 @@ using namespace std;
     ListElem *pfirst;
     //plast points to the last item of the list
     ListElem *plast;
-    int size = 0;
+    static int size = 0;
 
 	// Insert pokemonName at position pos in linked list
 	// First arg is pokemon name, second is pokemon level
@@ -97,6 +97,13 @@ using namespace std;
 	//count the number of pokemon in the Circularly Linked List
 	int countitem(ListElem *L)
 	{
+        int size = 0;
+        ListElem* elem = pfirst;
+        while (elem != plast) {
+            size++;
+            elem = elem->pNext;
+        }
+        size++;
 	    return size;
 	}
 
@@ -133,17 +140,20 @@ using namespace std;
 	}
 
 	//Find pokemon with corresponding name
-	ListElem *find(ListElem *L,std::string comp)
+	ListElem *find(std::string comp)
 	{
-	    ListElem *elem = L->pNext;
-	    while(elem != L)
+	    ListElem *elem = pfirst;
+	    while(elem != plast)
 	    {
-	        if((elem->name)->compare(comp) == 0)
+	        if(elem->name->compare(comp) == 0)
 	        {
 	            return elem;
 	        }
 	        elem = elem->pNext;
 	    }
+        if (elem->name->compare(comp) == 0) {
+            return elem;
+        }
 	    return NULL;
 	}
 
@@ -215,7 +225,7 @@ using namespace std;
 					//if you found a pokemon
 					{
 					    ListElem * shit = findmin(pfirst);
-						cout<<"The pokemon with the lowest level is:"<< shit->name <<
+						cout<<"The pokemon with the lowest level is:"<< *(shit->name) <<
 						" who is level " << shit->level <<endl;
 					//else you should return cout<<"Not found\n";
 					}
@@ -238,7 +248,7 @@ using namespace std;
 					cout<<"Find what:";
 					cin>>name;
 					//if you found a pokemon :
-					ListElem * node = find(pfirst, name);
+					ListElem * node = find(name);
 						cout<<"Pokemon found : "<< *(node->name) << " Level : "
 						<< node->level << " Type : " << *(node->type) << endl;
 					}
