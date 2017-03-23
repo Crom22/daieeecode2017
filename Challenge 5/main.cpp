@@ -85,7 +85,13 @@ using namespace std;
 	void printall(ListElem *L)
 	{
 
-	    
+        if (pfirst == NULL) return;
+        ListElem* elem = pfirst;
+        while (elem != plast) {
+            cout << "Name: " << *(elem->name) << " -- Level: " << elem->level << " -- Type: " << *(elem->type) << endl;
+            elem = elem->pNext;
+        }
+
 	}
 
 	//count the number of pokemon in the Circularly Linked List
