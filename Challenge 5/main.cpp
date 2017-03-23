@@ -9,44 +9,162 @@ using namespace std;
 	//This represent an element of the linked list
 	//It's your job to determine what need to go in there
 	typedef struct ListNode{
+	    int level;
+	    string *name;
+		string *type;
+        struct ListNode *pNext;
+        struct ListNode *pPrev;
 	}ListElem;
 	//---------------------------------------------------------
 
-
-	// This is an example of the functions you need to implement
-	// Feel free to ignore them, but the solution was made implementing those function
+    //pfirst points to the first item of the list
+    ListElem *pfirst;
+    //plast points to the last item of the list
+    ListElem *plast;
+    static int size = 0;
 
 	// Insert pokemonName at position pos in linked list
 	// First arg is pokemon name, second is pokemon level
 	// Third is pokemon Type and last one is the position in the list
-	void Insert (std::string,int, std::string, int);
+	void Insert (std::string& name, int level, std::string& type, int pos) {
+        int i = 0;
+        if (pfirst == NULL) {
+            ListElem *node = (ListElem*) malloc(sizeof(ListElem));
+            node->level = level;
+            node->name = &name;
+            node->type = &type;
+            node->pNext = node;
+            node->pPrev = node;
+            pfirst = node;
+            plast = node;
+            return;
+        }
+        ListElem *elem = pfirst;
+        while (i != pos) {
+            i++;
+            elem = elem->pNext;
+        }
+        ListElem *node = (ListElem*) malloc(sizeof(ListElem));
+        node->level = level;
+        node->name = &name;
+        node->type = &type;
+        node->pNext = elem;
+        node->pPrev = elem->pPrev;
+        elem->pPrev = node;
+
+        if (elem == pfirst) {
+            pfirst = node;
+        }
+        if (elem == plast) {
+            plast = node;
+        }
+        size++;
+    }
 	
 	//delete pokemon at position i from the Circularly Linked List
-	void Delete(int);
+	void Delete(int pos) {
+        size--;
+        int i = 0;
+        ListElem* elem = pfirst;
+        while (i != pos) {
+            i++;
+            elem = elem->pNext;
+        }
+        elem->pPrev->pNext = elem->pNext;
+        elem->pNext->pPrev = elem->pPrev;
+        if (elem == pfirst) {
+            pfirst = elem->pNext;
+        }
+        if (elem == plast) {
+            plast = elem->pPrev;
+        }
+        free(elem);
+    }
 
 	//Print out all pokemon on the screen
-	void printall(ListElem *L);
+	void printall(ListElem *L)
+	{
+
+        if (pfirst == NULL) return;
+        ListElem* elem = pfirst;
+        while (elem != plast) {
+            cout << "Name: " << *(elem->name) << " -- Level: " << elem->level << " -- Type: " << *(elem->type) << endl;
+            elem = elem->pNext;
+        }
+
+	}
 
 	//count the number of pokemon in the Circularly Linked List
-	int countitem(ListElem *L);
+	int countitem(ListElem *L)
+	{
+        int size = 0;
+        ListElem* elem = pfirst;
+        while (elem != plast) {
+            size++;
+            elem = elem->pNext;
+        }
+        size++;
+	    return size;
+	}
 
 	//Find pokemon with lowest level
-	ListElem *findmin(ListElem *L);
+	ListElem *findmin(ListElem *L)
+	{
+	    ListElem *min = L;
+	    ListElem *elem = L->pNext;
+	    while(elem != L)
+	    {
+	        if(elem->level < min->level)
+	        {
+	            min = elem;
+	        }
+	        elem = elem->pNext;
+	    }
+	    return min;
+	}
 
 	//Find pokemon with highest level
-	ListElem *findmax(ListElem *L);
+	ListElem *findmax(ListElem *L)
+	{
+	    ListElem *max = L;
+	    ListElem *elem = L->pNext;
+	    while(elem != L)
+	    {
+	        if(elem->level < max->level)
+	        {
+	            max = elem;
+	        }
+	        elem = elem->pNext;
+	    }
+	    return max;
+	}
 
 	//Find pokemon with corresponding name
-	ListElem *find(ListElem *L,std::string);
-
-
-	//pfirst points to the first item of the list
-	ListElem *pfirst;
-	//plast points to the last item of the list
-	ListElem *plast;
+	ListElem *find(std::string comp)
+	{
+	    ListElem *elem = pfirst;
+	    while(elem != plast)
+	    {
+	        if(elem->name->compare(comp) == 0)
+	        {
+	            return elem;
+	        }
+	        elem = elem->pNext;
+	    }
+        if (elem->name->compare(comp) == 0) {
+            return elem;
+        }
+	    return NULL;
+	}
 
 	//Empty the Circularly linked List
 	void makeEmpty(){
+        ListElem* elem = pfirst;
+        while (elem != plast) {
+            ListElem* work_elem = elem;
+            elem = work_elem->pNext;
+            free(work_elem);
+        }
 		pfirst=plast=NULL;
 	}
 	
@@ -86,43 +204,54 @@ using namespace std;
 					cin>>type;
 					cout<<"Position into the rooster:";
 					cin>>pos;
+					Insert(name, level, type, pos);
 					break;
 
 				// Delete a pokemon	
 				case 2: 
 					cout<<"Position in rooster:";
 					cin>>pos;
+					Delete(pos);
 					break;
 
 				// Show number of Pokemons in rooster	
 				case 3: 
-					cout<<"Number of Pokemons:"<< "GIMME YOUR VALUE HERE" << endl;
+				    
+					cout<<"Number of Pokemons:"<< countitem(NULL) << endl;
 					break;
 
 				// Find Pokemon with lowest level	
 				case 4: 
 					//if you found a pokemon
-						cout<<"The pokemon with the lowest level is:"<<"GIMME YOUR VALUE HERE"<<
-						" who is level " << "GIMME YOUR VALUE HERE"<<endl;
+					{
+					    ListElem * shit = findmin(pfirst);
+						cout<<"The pokemon with the lowest level is:"<< *(shit->name) <<
+						" who is level " << shit->level <<endl;
 					//else you should return cout<<"Not found\n";
+					}
 					break;
 				
 				// Find Pokemon with highest level
 				case 5: 
 					//if you found a pokemon
-						cout<<"The pokemon with the highest level is :"<<"GIMME YOUR VALUE HERE"<< 
-						" who is level " << "GIMME YOUR VALUE HERE"<<endl;
+					{
+					    ListElem * top = findmax(pfirst);  
+						cout<<"The pokemon with the highest level is :"<< *(top->name) << 
+						" who is level " << top->level <<endl;
+					}
 					//else you should return cout<<"Not found\n";
 					break;
 
 				// Find Pokemon by name and show his informations	
 				case 6: 
+				    {
 					cout<<"Find what:";
 					cin>>name;
 					//if you found a pokemon :
-						cout<<"Pokemon found : "<< "GIMME YOUR VALUE HERE"<< " Level : "
-						<< "GIMME YOUR VALUE HERE" << " Type : " << "GIMME YOUR VALUE HERE" << endl;
-					
+					ListElem * node = find(name);
+						cout<<"Pokemon found : "<< *(node->name) << " Level : "
+						<< node->level << " Type : " << *(node->type) << endl;
+					}
 					//else you should return cout<<"Not found\n";
 						
 					
@@ -130,7 +259,10 @@ using namespace std;
 
 				// Show all Pokemon in rooster	
 				case 7: 
+				    {
 					cout<<"All Pokemons in rooster:\n";
+					printall(pfirst);
+					}
 					break;
 
 				// Quit Pokemon Rooster	
