@@ -27,29 +27,19 @@ using namespace std;
 	// First arg is pokemon name, second is pokemon level
 	// Third is pokemon Type and last one is the position in the list
 	void Insert (std::string& name, int level, std::string& type, int pos) {
-        if (pos > size) {
-            ListElem *node = (ListElem*) malloc(sizeof(ListElem));
-            node->level = level;
-            node->name = &name;
-            node->type = &type;
-            node->pNext = pfirst;
-            plast->pNext = node;
-            plast = node;
-            size++;
-        }
-
         int i = 0;
         ListElem* elem = pfirst;
         while (i != pos) {
             i++;
-            elem = pfirst->pNext;
+            elem = elem->pNext;
         }
         ListElem *node = (ListElem*) malloc(sizeof(ListElem));
         node->level = level;
         node->name = &name;
         node->type = &type;
-        node->pNext = elem->pNext;
-        elem->pNext = node;
+        node->pNext = elem;
+        node->pPrev = elem->pPrev;
+        elem->pPrev = node;
 
         if (elem == pfirst) {
             pfirst = node;
@@ -62,7 +52,22 @@ using namespace std;
 	
 	//delete pokemon at position i from the Circularly Linked List
 	void Delete(int pos) {
-
+        size--;
+        int i = 0;
+        ListElem* elem = pfirst;
+        while (i != pos) {
+            i++;
+            elem = elem->pNext;
+        }
+        elem->pPrev->pNext = elem->pNext;
+        elem->pNext->pPrev = elem->pPrev;
+        if (elem == pfirst) {
+            pfirst = elem->pNext;
+        }
+        if (elem == plast) {
+            plast = elem->pPrev;
+        }
+        free(elem);
     }
 
 	//Print out all pokemon on the screen
