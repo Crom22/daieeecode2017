@@ -321,3 +321,6 @@ tags
 
 # End of https://www.gitignore.io/api/c,c++,python,eclipse,pycharm,vim,java
 *.idea
+CMakeCache
+gmon.out
+cmake_install.cmake
