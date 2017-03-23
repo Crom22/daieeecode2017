@@ -141,6 +141,12 @@ using namespace std;
 
 	//Empty the Circularly linked List
 	void makeEmpty(){
+        ListElem* elem = pfirst;
+        while (elem != plast) {
+            ListElem* work_elem = elem;
+            elem = work_elem->pNext;
+            free(work_elem);
+        }
 		pfirst=plast=NULL;
 	}
 	
