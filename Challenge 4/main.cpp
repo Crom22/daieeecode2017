@@ -100,10 +100,20 @@ int main() {
         increment_or_add(&wc, word);
     }
 
+    ofstream result("result.json");
+    result << "{" << endl;
+    bool first = true;
     while (work != NULL) {
-        cout << *(work->word) << ": " << work->count << endl;
+        if (first) {
+            first = false;
+        }
+        else {
+            result << "," << endl;
+        }
+        result << "\"" << *(work->word) << "\": " << work->count;
         work = work->next;
     }
-
+    result << endl << "}";
+    result.close();
     exit(EXIT_SUCCESS);
 }
