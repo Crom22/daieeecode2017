@@ -28,7 +28,18 @@ using namespace std;
 	// Third is pokemon Type and last one is the position in the list
 	void Insert (std::string& name, int level, std::string& type, int pos) {
         int i = 0;
-        ListElem* elem = pfirst;
+        if (pfirst == NULL) {
+            ListElem *node = (ListElem*) malloc(sizeof(ListElem));
+            node->level = level;
+            node->name = &name;
+            node->type = &type;
+            node->pNext = node;
+            node->pPrev = node;
+            pfirst = node;
+            plast = node;
+            return;
+        }
+        ListElem *elem = pfirst;
         while (i != pos) {
             i++;
             elem = elem->pNext;
@@ -105,23 +116,13 @@ using namespace std;
 	        }
 	        elem = elem->pNext;
 	    }
-	    return min;
+	    return max;
 	}
 
 	//Find pokemon with corresponding name
 	ListElem *find(ListElem *L,std::string)
 	{
-	    ListElem *start_node = L;
-	    ListElem *elem = L->pNext;
-	    while(elem != L)
-	    {
-	        if(elem->name < min->level)
-	        {
-	            min = elem;
-	        }
-	        elem = elem->pNext;
-	    }
-	    return min;
+        return NULL;
 	}
 
 	//Empty the Circularly linked List
