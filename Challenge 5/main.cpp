@@ -71,14 +71,15 @@ using namespace std;
 	//Find pokemon with lowest level
 	ListElem *findmin(ListElem *L)
 	{
-	    int min = L->level;
-	    elem = L->pnext;
+	    ListElem *min = L;
+	    ListElem *elem = L->pNext;
 	    while(elem != L)
 	    {
-	        if(elem->level < min)
+	        if(elem->level < min->level)
 	        {
-	            min = elem->level;
+	            min = elem;
 	        }
+	        elem = elem->pNext;
 	    }
 	    return min;
 	}
@@ -130,6 +131,7 @@ using namespace std;
 					cin>>type;
 					cout<<"Position into the rooster:";
 					cin>>pos;
+					Insert(name, level, type, pos);
 					break;
 
 				// Delete a pokemon	
