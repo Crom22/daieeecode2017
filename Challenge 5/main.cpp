@@ -61,6 +61,12 @@ using namespace std;
         }
         elem->pPrev->pNext = elem->pNext;
         elem->pNext->pPrev = elem->pPrev;
+        if (elem == pfirst) {
+            pfirst = elem->pNext;
+        }
+        if (elem == plast) {
+            plast = elem->pPrev;
+        }
         free(elem);
     }
 
