@@ -44,12 +44,19 @@ using namespace std;
             elem = pfirst->pNext;
         }
         ListElem node;
-        node.level = elem->level;
-        node.name = elem->name;
-        node.type = elem->type;
+        node.level = level;
+        node.name = name;
+        node.type = type;
         node.pNext = elem->pNext;
-        
+        elem->pNext = &node;
 
+        if (elem == pfirst) {
+            pfirst = &node;
+        }
+        if (elem == plast) {
+            plast = &node;
+        }
+        size++;
     }
 	
 	//delete pokemon at position i from the Circularly Linked List
