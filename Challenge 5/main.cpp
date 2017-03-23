@@ -88,10 +88,36 @@ using namespace std;
 	}
 
 	//Find pokemon with highest level
-	ListElem *findmax(ListElem *L);
+	ListElem *findmax(ListElem *L)
+	{
+	    ListElem *max = L;
+	    ListElem *elem = L->pNext;
+	    while(elem != L)
+	    {
+	        if(elem->level < max->level)
+	        {
+	            max = elem;
+	        }
+	        elem = elem->pNext;
+	    }
+	    return min;
+	}
 
 	//Find pokemon with corresponding name
-	ListElem *find(ListElem *L,std::string);
+	ListElem *find(ListElem *L,std::string)
+	{
+	    ListElem *start_node = L;
+	    ListElem *elem = L->pNext;
+	    while(elem != L)
+	    {
+	        if(elem->name < min->level)
+	        {
+	            min = elem;
+	        }
+	        elem = elem->pNext;
+	    }
+	    return min;
+	}
 
 	//Empty the Circularly linked List
 	void makeEmpty(){
