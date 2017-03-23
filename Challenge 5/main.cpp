@@ -9,17 +9,48 @@ using namespace std;
 	//This represent an element of the linked list
 	//It's your job to determine what need to go in there
 	typedef struct ListNode{
+	    int level;
+	    string name;
+		string type;
+        struct ListNode* pNext;
 	}ListElem;
 	//---------------------------------------------------------
 
-
-	// This is an example of the functions you need to implement
-	// Feel free to ignore them, but the solution was made implementing those function
+    //pfirst points to the first item of the list
+    ListElem *pfirst;
+    //plast points to the last item of the list
+    ListElem *plast;
+    int size;
 
 	// Insert pokemonName at position pos in linked list
 	// First arg is pokemon name, second is pokemon level
 	// Third is pokemon Type and last one is the position in the list
-	void Insert (std::string,int, std::string, int);
+	void Insert (std::string name, int level, std::string type, int pos) {
+        if (pos > size) {
+            ListElem node;
+            node.level = level;
+            node.name = name;
+            node.type = type;
+            node.pNext = pfirst;
+            plast->pNext = &node;
+            plast = &node;
+            size++;
+        }
+
+        int i = 0;
+        ListElem* elem = pfirst;
+        while (i != pos) {
+            i++;
+            elem = pfirst->pNext;
+        }
+        ListElem node;
+        node.level = elem->level;
+        node.name = elem->name;
+        node.type = elem->type;
+        node.pNext = elem->pNext;
+        
+
+    }
 	
 	//delete pokemon at position i from the Circularly Linked List
 	void Delete(int);
@@ -38,12 +69,6 @@ using namespace std;
 
 	//Find pokemon with corresponding name
 	ListElem *find(ListElem *L,std::string);
-
-
-	//pfirst points to the first item of the list
-	ListElem *pfirst;
-	//plast points to the last item of the list
-	ListElem *plast;
 
 	//Empty the Circularly linked List
 	void makeEmpty(){
