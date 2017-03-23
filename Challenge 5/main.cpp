@@ -82,10 +82,15 @@ using namespace std;
     }
 
 	//Print out all pokemon on the screen
-	void printall(ListElem *L);
+	void printall(ListElem *L)
+	{
+	}
 
 	//count the number of pokemon in the Circularly Linked List
-	int countitem(ListElem *L);
+	int countitem(ListElem *L)
+	{
+	    return size;
+	}
 
 	//Find pokemon with lowest level
 	ListElem *findmin(ListElem *L)
@@ -120,9 +125,18 @@ using namespace std;
 	}
 
 	//Find pokemon with corresponding name
-	ListElem *find(ListElem *L,std::string)
+	ListElem *find(ListElem *L,std::string comp)
 	{
-        return NULL;
+	    ListElem *elem = L->pNext;
+	    while(elem != L)
+	    {
+	        if((elem->name)->compare(comp) == 0)
+	        {
+	            return elem;
+	        }
+	        elem = elem->pNext;
+	    }
+	    return NULL;
 	}
 
 	//Empty the Circularly linked List
