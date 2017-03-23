@@ -10,9 +10,10 @@ using namespace std;
 	//It's your job to determine what need to go in there
 	typedef struct ListNode{
 	    int level;
-	    string name;
-		string type;
-        struct ListNode* pNext;
+	    string *name;
+		string *type;
+        struct ListNode *pNext;
+        struct ListNode *pPrev;
 	}ListElem;
 	//---------------------------------------------------------
 
@@ -20,20 +21,20 @@ using namespace std;
     ListElem *pfirst;
     //plast points to the last item of the list
     ListElem *plast;
-    int size;
+    int size = 0;
 
 	// Insert pokemonName at position pos in linked list
 	// First arg is pokemon name, second is pokemon level
 	// Third is pokemon Type and last one is the position in the list
-	void Insert (std::string name, int level, std::string type, int pos) {
+	void Insert (std::string& name, int level, std::string& type, int pos) {
         if (pos > size) {
-            ListElem node;
-            node.level = level;
-            node.name = name;
-            node.type = type;
-            node.pNext = pfirst;
-            plast->pNext = &node;
-            plast = &node;
+            ListElem *node = (ListElem*) malloc(sizeof(ListElem));
+            node->level = level;
+            node->name = &name;
+            node->type = &type;
+            node->pNext = pfirst;
+            plast->pNext = node;
+            plast = node;
             size++;
         }
 
@@ -43,24 +44,26 @@ using namespace std;
             i++;
             elem = pfirst->pNext;
         }
-        ListElem node;
-        node.level = level;
-        node.name = name;
-        node.type = type;
-        node.pNext = elem->pNext;
-        elem->pNext = &node;
+        ListElem *node = (ListElem*) malloc(sizeof(ListElem));
+        node->level = level;
+        node->name = &name;
+        node->type = &type;
+        node->pNext = elem->pNext;
+        elem->pNext = node;
 
         if (elem == pfirst) {
-            pfirst = &node;
+            pfirst = node;
         }
         if (elem == plast) {
-            plast = &node;
+            plast = node;
         }
         size++;
     }
 	
 	//delete pokemon at position i from the Circularly Linked List
-	void Delete(int);
+	void Delete(int pos) {
+
+    }
 
 	//Print out all pokemon on the screen
 	void printall(ListElem *L);
