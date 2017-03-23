@@ -28,7 +28,18 @@ using namespace std;
 	// Third is pokemon Type and last one is the position in the list
 	void Insert (std::string& name, int level, std::string& type, int pos) {
         int i = 0;
-        ListElem* elem = pfirst;
+        if (pfirst == NULL) {
+            ListElem *node = (ListElem*) malloc(sizeof(ListElem));
+            node->level = level;
+            node->name = &name;
+            node->type = &type;
+            node->pNext = node;
+            node->pPrev = node;
+            pfirst = node;
+            plast = node;
+            return;
+        }
+        ListElem *elem = pfirst;
         while (i != pos) {
             i++;
             elem = elem->pNext;
