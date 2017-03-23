@@ -62,7 +62,19 @@ using namespace std;
 	int countitem(ListElem *L);
 
 	//Find pokemon with lowest level
-	ListElem *findmin(ListElem *L);
+	ListElem *findmin(ListElem *L)
+	{
+	    int min = L->level;
+	    elem = L->pnext;
+	    while(elem != L)
+	    {
+	        if(elem->level < min)
+	        {
+	            min = elem->level;
+	        }
+	    }
+	    return min;
+	}
 
 	//Find pokemon with highest level
 	ListElem *findmax(ListElem *L);
