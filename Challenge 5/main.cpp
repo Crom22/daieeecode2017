@@ -187,6 +187,7 @@ using namespace std;
 				case 2: 
 					cout<<"Position in rooster:";
 					cin>>pos;
+					Delete(pos);
 					break;
 
 				// Show number of Pokemons in rooster	
