@@ -10,38 +10,25 @@ struct word_count {
     int count;
 } word_count;
 
-int split(const string& s, const vector<char>& delim, vector<string>& tokens) {
-    if (s.length() == 0) return 0;
-    int i = 0;
-    int actual_pos = s.length();
-    for (char c: delim) {
-        int tmp_pos = s.find(c);
-        if (tmp_pos != string::npos && tmp_pos < actual_pos) {
-            actual_pos = tmp_pos;
+int split(const string& s, vector<string>& tokens) {
+    int i, j = 0;
+    for (i = 0; i < s.length(); i++) {
+        if (s[i] == '!' || s[i] == '(' || s[i] == ')') {
+            int len = i - j;
+            if (len > 0) {
+                tokens.push_back(s.substr(j, i - j));
+            }
+            tokens.push_back(s.substr(i, 1));
+            j = i + 1;
+        }
+        else if (s[i] == ' ') {
+            tokens.push_back(s.substr(j, i - j));
+            j = i + 1;
         }
     }
-
-    while (actual_pos != string::npos) {
-        tokens.push_back(s.substr(i, actual_pos-i));
-        i = ++actual_pos;
-        int new_pos = s.length();
-        for (char c: delim) {
-            int tmp_pos = s.find(c, actual_pos);
-            if (tmp_pos != string::npos && tmp_pos < new_pos) {
-                new_pos = tmp_pos;
-            }
-        }
-
-        if (new_pos == s.length()) {
-            actual_pos = string::npos;
-        }
-        else {
-            actual_pos = new_pos;
-        }
-
-        if (actual_pos == string::npos) {
-            tokens.push_back(s.substr(i, s.length()));
-        }
+    int len = i - j;
+    if (len > 0 ) {
+        tokens.push_back(s.substr(j, i - j));
     }
 }
 
@@ -65,7 +52,7 @@ int main() {
     for (string line: lines) {
         vector<char> delim = {' ', ',', '.', '!', '?', '(', ')'};
         vector<string> tokens;
-        split(line, delim, tokens);
+        split(line, tokens);
         for (string word: tokens) {
             cout << word << endl;
         }
