@@ -87,7 +87,7 @@ using namespace std;
         if (pfirst == NULL) return;
         ListElem* elem = pfirst;
         while (elem != plast) {
-            cout << "Name: " << elem->name << " -- Level: " << elem->level << " -- Type: " << elem->type << endl;
+            cout << "Name: " << *(elem->name) << " -- Level: " << elem->level << " -- Type: " << *(elem->type) << endl;
             elem = elem->pNext;
         }
 	}
